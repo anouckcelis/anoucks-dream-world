@@ -169,6 +169,70 @@ const backWindow = new THREE.Mesh(windowGeometry, windowMaterial);
 backWindow.position.set(0, 1.2, -0.79);
 islandGroup.add(backWindow);
 
+// Functie om een bloemetje te maken
+function addFlower(x, z, color) {
+    const flowerGroup = new THREE.Group();
+
+    // Kort groen steeltje
+    const stemGeometry = new THREE.CylinderGeometry(0.018, 0.025, 0.18, 8);
+    const stemMaterial = new THREE.MeshStandardMaterial({ color: '#6b9b65' });
+    const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+
+    stem.position.y = 0.09;
+    flowerGroup.add(stem);
+
+    // Bloemblaadjes
+    const petalGeometry = new THREE.SphereGeometry(0.1, 12, 12);
+    const petalMaterial = new THREE.MeshStandardMaterial({ color: color });
+
+    for (let i = 0; i < 5; i++) {
+        const angle = (i / 5) * Math.PI * 2;
+
+        const petal = new THREE.Mesh(petalGeometry, petalMaterial);
+
+        petal.scale.set(0.8, 0.45, 1.2);
+        petal.position.set(
+            Math.cos(angle) * 0.09,
+            0.2,
+            Math.sin(angle) * 0.09
+        );
+        petal.rotation.y = -angle;
+
+        flowerGroup.add(petal);
+    }
+
+    // Geel hartje
+    const centerGeometry = new THREE.SphereGeometry(0.055, 12, 12);
+    const centerMaterial = new THREE.MeshStandardMaterial({ color: '#ffdf70' });
+    const center = new THREE.Mesh(centerGeometry, centerMaterial);
+
+    center.position.y = 0.22;
+    flowerGroup.add(center);
+
+    // Plaats het bloemetje op het eiland
+    flowerGroup.position.set(x, 0.44, z);
+
+    islandGroup.add(flowerGroup);
+}
+
+// Bloemetjes links van het huis
+addFlower(-1.5, 0.5, '#ff8fab');
+addFlower(-1.8, 0, '#ffe066');
+addFlower(-1.6, -0.7, '#b28dff');
+addFlower(-1.4, -1.4, '#8ecbff');
+addFlower(-0.8, -1.8, '#ff9f68');
+
+// Bloemetjes achter het huis
+addFlower(-0.2, -1.9, '#ff8fab');
+addFlower(0.5, -1.9, '#ffe066');
+addFlower(1.0, -1.5, '#b28dff');
+addFlower(-1.9, -0.9, '#ff9f68');
+
+// Extra kleurrijke bloemetjes links
+addFlower(-2.0, 0.7, '#8ecbff');
+addFlower(-1.9, 1.1, '#ff8fab');
+addFlower(-1.3, -0.3, '#ffe066');
+
 // Animatie
 function animate() {
     requestAnimationFrame(animate);
