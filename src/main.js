@@ -76,42 +76,61 @@ grass.position.y = 0.38;
 islandGroup.add(grass);
 
 // Huisje - muren
+// HUISJE
 const houseGeometry = new THREE.BoxGeometry(1.8, 1.5, 1.5);
 
 const houseMaterial = new THREE.MeshStandardMaterial({
-    color: '#f3e5ff',
+    color: '#fff0e8',
     roughness: 0.9
 });
 
 const house = new THREE.Mesh(houseGeometry, houseMaterial);
 house.position.set(0, 1.15, 0);
+
 islandGroup.add(house);
 
+
 // Dak van het huisje
-const roofGeometry = new THREE.ConeGeometry(1.45, 1.2, 4);
+// DAK
+const roofGeometry = new THREE.ConeGeometry(1.5, 1.35, 4);
 
 const roofMaterial = new THREE.MeshStandardMaterial({
-    color: '#565194',
-    roughness: 0.9
+    color: '#a995d5',
+    roughness: 0.85
 });
 
 const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-roof.position.set(0, 2.5, 0);
+
+roof.position.set(0, 2.55, 0);
 roof.rotation.y = Math.PI / 4;
 
 islandGroup.add(roof);
 
 // Schoorsteen
-const chimneyGeometry = new THREE.BoxGeometry(0.3, 0.9, 0.3);
+const chimneyGeometry = new THREE.BoxGeometry(0.32, 1.25, 0.32);
 
 const chimneyMaterial = new THREE.MeshStandardMaterial({
-    color: '#85477a'
+    color: '#e9b4ca',
+    roughness: 0.9
 });
 
 const chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial);
 chimney.position.set(0.55, 2.35, -0.25);
 
 islandGroup.add(chimney);
+
+// Kapje boven op de schoorsteen
+const chimneyCapGeometry = new THREE.BoxGeometry(0.48, 0.12, 0.48);
+
+const chimneyCapMaterial = new THREE.MeshStandardMaterial({
+    color: '#a995d5',
+    roughness: 0.85
+});
+
+const chimneyCap = new THREE.Mesh(chimneyCapGeometry, chimneyCapMaterial);
+chimneyCap.position.set(0.55, 3.02, -0.25);
+
+islandGroup.add(chimneyCap);
 
 // Voordeur
 const doorGeometry = new THREE.BoxGeometry(0.4, 0.8, 0.08);
