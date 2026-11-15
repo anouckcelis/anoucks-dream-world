@@ -166,10 +166,114 @@ sideWindowRight2.position.set(0.91, 1.2, 0.4);
 sideWindowRight2.rotation.y = Math.PI / 2;
 islandGroup.add(sideWindowRight2);
 
-// Raam achteraan
-const backWindow = new THREE.Mesh(windowGeometry, windowMaterial);
-backWindow.position.set(0, 1.2, -0.79);
-islandGroup.add(backWindow);
+
+
+
+// Naambordje Anouck's Place
+const plaqueCanvas = document.createElement('canvas');
+plaqueCanvas.width = 768;
+plaqueCanvas.height = 320;
+
+const ctx = plaqueCanvas.getContext('2d');
+
+// Lichtroze achtergrond met afgeronde hoeken
+ctx.fillStyle = '#fce4ec';
+ctx.beginPath();
+ctx.roundRect(10, 10, 748, 300, 55);
+ctx.fill();
+
+// Paarse afgeronde rand
+ctx.strokeStyle = '#b9a5df';
+ctx.lineWidth = 10;
+ctx.beginPath();
+ctx.roundRect(15, 15, 738, 290, 50);
+ctx.stroke();
+
+// Roze hartjes
+ctx.textAlign = 'center';
+ctx.fillStyle = '#ff8fab';
+ctx.font = '55px Arial';
+
+ctx.fillText('♥', 105, 105);
+ctx.fillText('♥', 665, 105);
+ctx.fillText('♥', 105, 255);
+ctx.fillText('♥', 665, 255);
+
+// Paarse sterretjes
+ctx.fillStyle = '#a995d5';
+ctx.font = '38px Arial';
+
+ctx.fillText('✦', 205, 65);
+ctx.fillText('✧', 555, 65);
+ctx.fillText('✧', 205, 280);
+ctx.fillText('✦', 555, 280);
+
+// Naam
+ctx.fillStyle = '#565194';
+ctx.font = 'italic bold 76px Georgia';
+ctx.fillText("Anouck's", 384, 145);
+
+ctx.font = 'bold 65px Georgia';
+ctx.fillText('Place', 384, 225);
+// Textuur
+const plaqueTexture = new THREE.CanvasTexture(plaqueCanvas);
+plaqueTexture.colorSpace = THREE.SRGBColorSpace;
+
+// Afgeronde vorm van het bordje
+const plaqueShape = new THREE.Shape();
+
+plaqueShape.moveTo(-0.60, -0.275);
+plaqueShape.lineTo(0.60, -0.275);
+plaqueShape.quadraticCurveTo(0.70, -0.275, 0.70, -0.175);
+plaqueShape.lineTo(0.70, 0.175);
+plaqueShape.quadraticCurveTo(0.70, 0.275, 0.60, 0.275);
+plaqueShape.lineTo(-0.60, 0.275);
+plaqueShape.quadraticCurveTo(-0.70, 0.275, -0.70, 0.175);
+plaqueShape.lineTo(-0.70, -0.175);
+plaqueShape.quadraticCurveTo(-0.70, -0.275, -0.60, -0.275);
+plaqueShape.closePath();
+
+const plaqueGeometry = new THREE.ExtrudeGeometry(plaqueShape, {
+    depth: 0.07,
+    bevelEnabled: true,
+    bevelSegments: 5,
+    bevelSize: 0.015,
+    bevelThickness: 0.01,
+    curveSegments: 16
+});
+
+// Eén lichtroze materiaal voor het volledige bordje
+const plaqueMaterial = new THREE.MeshStandardMaterial({
+    color: '#fce4ec',
+    roughness: 0.8
+});
+
+const plaque = new THREE.Mesh(plaqueGeometry, plaqueMaterial);
+
+plaque.position.set(0, 1.3, -0.75);
+plaque.rotation.y = Math.PI;
+
+islandGroup.add(plaque);
+
+// Tekst op het naambordje
+const plaqueTextMaterial = new THREE.MeshBasicMaterial({
+    map: plaqueTexture,
+    transparent: true,
+    side: THREE.DoubleSide,
+    depthWrite: false
+});
+
+const plaqueTextGeometry = new THREE.PlaneGeometry(1.3, 0.55);
+
+const plaqueText = new THREE.Mesh(
+    plaqueTextGeometry,
+    plaqueTextMaterial
+);
+
+plaqueText.position.set(0, 1.3, -0.831);
+plaqueText.rotation.y = Math.PI;
+
+islandGroup.add(plaqueText);
 
 // Functie om een bloemetje te maken
 function addFlower(x, z, color) {
@@ -468,9 +572,6 @@ function addCloud(x, y, z, scale = 1) {
     islandGroup.add(cloudGroup);
 }
 
-// Wolken rond het eiland
-addCloud(2.5, 3, 0, 0.9);
-addCloud(0, 4, -2, 1.1);
 
 // Wolken naast het huisje voor de regenboog
 addCloud(-1.7, 3.2, 0, 1);
