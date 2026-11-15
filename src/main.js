@@ -108,6 +108,64 @@ chimney.position.set(0.55, 2.35, -0.25);
 
 scene.add(chimney);
 
+// Voordeur
+const doorGeometry = new THREE.BoxGeometry(0.4, 0.8, 0.08);
+
+const doorMaterial = new THREE.MeshStandardMaterial({
+    color: '#85477a'
+});
+
+const door = new THREE.Mesh(doorGeometry, doorMaterial);
+door.position.set(0, 0.75, 0.79);
+
+scene.add(door);
+
+// Ramen
+const windowGeometry = new THREE.BoxGeometry(0.45, 0.45, 0.08);
+
+const windowMaterial = new THREE.MeshStandardMaterial({
+    color: '#8ecbff',
+    metalness: 0.2,
+    roughness: 0.2
+});
+
+// Linkerraam
+const leftWindow = new THREE.Mesh(windowGeometry, windowMaterial);
+leftWindow.position.set(-0.58, 1.2, 0.79);
+scene.add(leftWindow);
+
+// Rechterraam
+const rightWindow = new THREE.Mesh(windowGeometry, windowMaterial);
+rightWindow.position.set(0.58, 1.2, 0.79);
+scene.add(rightWindow);
+
+// Zijramen links
+const sideWindowLeft = new THREE.Mesh(windowGeometry, windowMaterial);
+sideWindowLeft.position.set(-0.91, 1.2, -0.35);
+sideWindowLeft.rotation.y = Math.PI / 2;
+scene.add(sideWindowLeft);
+
+const sideWindowLeft2 = new THREE.Mesh(windowGeometry, windowMaterial);
+sideWindowLeft2.position.set(-0.91, 1.2, 0.4);
+sideWindowLeft2.rotation.y = Math.PI / 2;
+scene.add(sideWindowLeft2);
+
+// Zijramen rechts
+const sideWindowRight = new THREE.Mesh(windowGeometry, windowMaterial);
+sideWindowRight.position.set(0.91, 1.2, -0.35);
+sideWindowRight.rotation.y = Math.PI / 2;
+scene.add(sideWindowRight);
+
+const sideWindowRight2 = new THREE.Mesh(windowGeometry, windowMaterial);
+sideWindowRight2.position.set(0.91, 1.2, 0.4);
+sideWindowRight2.rotation.y = Math.PI / 2;
+scene.add(sideWindowRight2);
+
+// Raam achteraan
+const backWindow = new THREE.Mesh(windowGeometry, windowMaterial);
+backWindow.position.set(0, 1.2, -0.79);
+scene.add(backWindow);
+
 // Animatie
 function animate() {
     requestAnimationFrame(animate);
