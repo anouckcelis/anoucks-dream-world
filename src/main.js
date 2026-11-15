@@ -5,6 +5,8 @@ import './style.css';
 const scene = new THREE.Scene();
 // Groep voor het volledige eiland
 const islandGroup = new THREE.Group();
+islandGroup.scale.set(1.3, 1.3, 1.3);
+islandGroup.position.y = 0.8;
 scene.add(islandGroup);
 scene.background = new THREE.Color('#b9c9ee');
 
@@ -215,23 +217,39 @@ function addFlower(x, z, color) {
     islandGroup.add(flowerGroup);
 }
 
-// Bloemetjes links van het huis
-addFlower(-1.5, 0.5, '#ff8fab');
-addFlower(-1.8, 0, '#ffe066');
-addFlower(-1.6, -0.7, '#b28dff');
-addFlower(-1.4, -1.4, '#8ecbff');
-addFlower(-0.8, -1.8, '#ff9f68');
+// Bloemen links naast het huis
+addFlower(-1.25, 0.3, '#ff8fab');
+addFlower(-1.65, 0.1, '#ffe066');
+addFlower(-1.35, -0.4, '#b28dff');
+addFlower(-1.8, -0.7, '#8ecbff');
+addFlower(-1.3, -1.0, '#ff9f68');
+addFlower(-1.9, -1.3, '#ff8fab');
 
-// Bloemetjes achter het huis
-addFlower(-0.2, -1.9, '#ff8fab');
-addFlower(0.5, -1.9, '#ffe066');
-addFlower(1.0, -1.5, '#b28dff');
-addFlower(-1.9, -0.9, '#ff9f68');
+// Bloemen achter het huis
+addFlower(-0.7, -1.9, '#ffe066');
+addFlower(0.2, -2.0, '#b28dff');
+addFlower(0.9, -1.8, '#8ecbff');
 
-// Extra kleurrijke bloemetjes links
-addFlower(-2.0, 0.7, '#8ecbff');
-addFlower(-1.9, 1.1, '#ff8fab');
-addFlower(-1.3, -0.3, '#ffe066');
+// Bloemen aan de linkerrand
+addFlower(-2.1, 0.7, '#ff9f68');
+addFlower(-2.2, -0.1, '#ff8fab');
+addFlower(-2.1, -0.9, '#ffe066');
+addFlower(-1.9, -1.7, '#b28dff');
+
+// Bloemen rondom de boom
+addFlower(2.0, -0.7, '#ff8fab');
+addFlower(2.15, 0.1, '#ffe066');
+addFlower(2.0, 1.1, '#b28dff');
+addFlower(1.8, 1.6, '#8ecbff');
+
+// Bloemen rechts naast het huis
+addFlower(1.4, -1.3, '#ff9f68');
+addFlower(1.8, -1.5, '#ff8fab');
+
+// Bloemen vooraan, naast het pad
+addFlower(-1.4, 1.7, '#ffe066');
+addFlower(-0.9, 1.9, '#b28dff');
+addFlower(1.1, 1.8, '#ff8fab');
 
 // Paadje naar de voordeur
 const pathGeometry = new THREE.BoxGeometry(0.45, 0.05, 1.8);
