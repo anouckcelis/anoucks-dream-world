@@ -250,13 +250,61 @@ islandGroup.add(chimneyCap);
 const doorGeometry = new THREE.BoxGeometry(0.4, 0.8, 0.08);
 
 const doorMaterial = new THREE.MeshStandardMaterial({
-    color: '#85477a'
+    color: '#d99ab8',
+    roughness: 0.8
 });
 
 const door = new THREE.Mesh(doorGeometry, doorMaterial);
 door.position.set(0, 0.75, 0.79);
 
 islandGroup.add(door);
+
+// DEURKADER
+const doorFrameMaterial = new THREE.MeshStandardMaterial({
+    color: '#ffffff',
+    roughness: 0.8
+});
+
+// Linkerkant
+const doorFrameLeft = new THREE.Mesh(
+    new THREE.BoxGeometry(0.045, 0.88, 0.10),
+    doorFrameMaterial
+);
+doorFrameLeft.position.set(-0.2225, 0.75, 0.81);
+islandGroup.add(doorFrameLeft);
+
+// Rechterkant
+const doorFrameRight = new THREE.Mesh(
+    new THREE.BoxGeometry(0.045, 0.88, 0.10),
+    doorFrameMaterial
+);
+doorFrameRight.position.set(0.2225, 0.75, 0.81);
+islandGroup.add(doorFrameRight);
+
+// Bovenkant
+const doorFrameTop = new THREE.Mesh(
+    new THREE.BoxGeometry(0.45, 0.045, 0.10),
+    doorFrameMaterial
+);
+doorFrameTop.position.set(0, 1.1725, 0.81);
+islandGroup.add(doorFrameTop);
+
+// GOUDEN DEURKNOP
+const doorHandleGeometry = new THREE.SphereGeometry(0.045, 16, 16);
+
+const doorHandleMaterial = new THREE.MeshStandardMaterial({
+    color: '#f5d58e',
+    metalness: 0.65,
+    roughness: 0.3
+});
+
+const doorHandle = new THREE.Mesh(
+    doorHandleGeometry,
+    doorHandleMaterial
+);
+
+doorHandle.position.set(0.12, 0.76, 0.85);
+islandGroup.add(doorHandle);
 
 // Ramen
 const windowGeometry = new THREE.BoxGeometry(0.45, 0.45, 0.08);
@@ -318,14 +366,14 @@ function addWindowDetails(x, y, z, rotationY = 0) {
         frameMaterial
         
     );
-    verticalCross.position.z = 0.07;
+    verticalCross.position.z = 0.055;
     windowGroup.add(verticalCross);
 
     const horizontalCross = new THREE.Mesh(
         new THREE.BoxGeometry(0.45, 0.045, 0.07),
         frameMaterial
     );
-    horizontalCross.position.z = 0.07;
+    horizontalCross.position.z = 0.055;
     windowGroup.add(horizontalCross);
 
     // Bovenste en onderste raamrand
@@ -334,7 +382,7 @@ function addWindowDetails(x, y, z, rotationY = 0) {
         frameMaterial
     );
     topFrame.position.y = 0.27;
-topFrame.position.z = 0.07;
+    topFrame.position.z = 0.055;
     windowGroup.add(topFrame);
 
     const bottomFrame = new THREE.Mesh(
@@ -342,7 +390,7 @@ topFrame.position.z = 0.07;
         frameMaterial
     );
     bottomFrame.position.y = -0.27;
-    bottomFrame.position.z = 0.07;
+    bottomFrame.position.z = 0.055;
     windowGroup.add(bottomFrame);
 
     // Linker en rechter raamrand
@@ -353,7 +401,7 @@ topFrame.position.z = 0.07;
         );
 
         frame.position.x = side * 0.25;
-        frame.position.z = 0.07;  
+        frame.position.z = 0.055;  
         windowGroup.add(frame);
     }
 
