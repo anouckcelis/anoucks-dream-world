@@ -106,6 +106,120 @@ roof.rotation.y = Math.PI / 4;
 
 islandGroup.add(roof);
 
+// DAKPANNEN
+const roofTileColors = [
+    '#b9a5df',
+    '#e9b4ca',
+    '#a9cde8',
+    '#d6b8ed',
+    '#f5c6d6'
+];
+
+const roofTiles = new THREE.Group();
+
+const tileGeometry = new THREE.BoxGeometry(0.34, 0.025, 0.19);
+
+const roofRadius = 1.5;
+const roofHeight = 1.35;
+const baseY = -roofHeight / 2;
+
+const faceRadius = roofRadius * Math.cos(Math.PI / 4);
+const slopeLength = Math.sqrt(
+    faceRadius * faceRadius + roofHeight * roofHeight
+);
+
+const sinAngle = faceRadius / slopeLength;
+const cosAngle = roofHeight / slopeLength;
+
+// Vier dakvlakken
+for (let side = 0; side < 4; side++) {
+
+    const angle = Math.PI / 4 + side * Math.PI / 2;
+
+    const radial = new THREE.Vector3(
+        Math.cos(angle), 0, Math.sin(angle)
+    );
+
+    const normal = new THREE.Vector3(
+        Math.cos(angle) * cosAngle,
+        sinAngle,
+        Math.sin(angle) * cosAngle
+    );
+
+    const slope = new THREE.Vector3(
+        -Math.cos(angle) * sinAngle,
+        cosAngle,
+        -Math.sin(angle) * sinAngle
+    );
+
+    const tangent = new THREE.Vector3()
+        .crossVectors(normal, slope)
+        .normalize();
+
+    const rotationMatrix = new THREE.Matrix4()
+        .makeBasis(tangent, normal, slope);
+
+    const tileRotation = new THREE.Quaternion()
+        .setFromRotationMatrix(rotationMatrix);
+
+    // Rijen dakpannen
+    for (let row = 0; row < 6; row++) {
+
+        const t = 0.08 + row * 0.135;
+        const currentWidth = 2 * faceRadius * (1 - t);
+
+        const columns = Math.max(
+            1,
+            Math.floor(currentWidth / 0.37)
+        );
+
+        for (let col = 0; col < columns; col++) {
+
+            const tileMaterial = new THREE.MeshStandardMaterial({
+                color: roofTileColors[
+                    (row * 2 + col + side * 3) % roofTileColors.length
+                ],
+                roughness: 0.85
+            });
+
+            const tile = new THREE.Mesh(
+                tileGeometry,
+                tileMaterial
+            );
+
+            const spacing = currentWidth / columns;
+            const horizontal = -currentWidth / 2
+                + spacing * (col + 0.5);
+
+            const distance = faceRadius * (1 - t);
+
+            const position = radial
+                .clone()
+                .multiplyScalar(distance);
+
+            position.y = baseY + t * roofHeight;
+
+            position.add(
+                tangent.clone().multiplyScalar(horizontal)
+            );
+
+            position.add(
+                normal.clone().multiplyScalar(0.025)
+            );
+
+            tile.position.copy(position);
+            tile.quaternion.copy(tileRotation);
+
+            roofTiles.add(tile);
+        }
+    }
+}
+
+// Dakpannen volgen het dak en draaien mee
+roof.add(roofTiles);
+
+
+
 // Schoorsteen
 const chimneyGeometry = new THREE.BoxGeometry(0.32, 1.25, 0.32);
 
@@ -185,8 +299,93 @@ sideWindowRight2.position.set(0.91, 1.2, 0.4);
 sideWindowRight2.rotation.y = Math.PI / 2;
 islandGroup.add(sideWindowRight2);
 
+// RAAMDETAILS
 
+function addWindowDetails(x, y, z, rotationY = 0) {
+    const windowGroup = new THREE.Group();
 
+    // Witte raamkozijnen
+    const frameMaterial = new THREE.MeshStandardMaterial({
+        color: '#ffffff',
+        roughness: 0.8
+    });
+
+    // Kruisverdeling
+    const crossGeometry = new THREE.BoxGeometry(0.045, 0.45, 0.07);
+
+    const verticalCross = new THREE.Mesh(
+        crossGeometry,
+        frameMaterial
+        
+    );
+    verticalCross.position.z = 0.07;
+    windowGroup.add(verticalCross);
+
+    const horizontalCross = new THREE.Mesh(
+        new THREE.BoxGeometry(0.45, 0.045, 0.07),
+        frameMaterial
+    );
+    horizontalCross.position.z = 0.07;
+    windowGroup.add(horizontalCross);
+
+    // Bovenste en onderste raamrand
+    const topFrame = new THREE.Mesh(
+        new THREE.BoxGeometry(0.55, 0.06, 0.09),
+        frameMaterial
+    );
+    topFrame.position.y = 0.27;
+topFrame.position.z = 0.07;
+    windowGroup.add(topFrame);
+
+    const bottomFrame = new THREE.Mesh(
+        new THREE.BoxGeometry(0.55, 0.06, 0.09),
+        frameMaterial
+    );
+    bottomFrame.position.y = -0.27;
+    bottomFrame.position.z = 0.07;
+    windowGroup.add(bottomFrame);
+
+    // Linker en rechter raamrand
+    for (const side of [-1, 1]) {
+        const frame = new THREE.Mesh(
+            new THREE.BoxGeometry(0.06, 0.5, 0.09),
+            frameMaterial
+        );
+
+        frame.position.x = side * 0.25;
+        frame.position.z = 0.07;  
+        windowGroup.add(frame);
+    }
+
+    // Vensterbank
+    const sill = new THREE.Mesh(
+        new THREE.BoxGeometry(0.7, 0.09, 0.18),
+        new THREE.MeshStandardMaterial({
+            color: '#e9b4ca',
+            roughness: 0.8
+        })
+    );
+
+    sill.position.set(0, -0.34, 0.09);
+    windowGroup.add(sill);
+
+    windowGroup.position.set(x, y, z);
+    windowGroup.rotation.y = rotationY;
+
+    islandGroup.add(windowGroup);
+}
+
+// Voorramen
+addWindowDetails(-0.58, 1.2, 0.79);
+addWindowDetails(0.58, 1.2, 0.79);
+
+// Zijramen links
+addWindowDetails(-0.91, 1.2, -0.35, -Math.PI / 2);
+addWindowDetails(-0.91, 1.2, 0.4, -Math.PI / 2);
+
+// Zijramen rechts
+addWindowDetails(0.91, 1.2, -0.35, Math.PI / 2);
+addWindowDetails(0.91, 1.2, 0.4, Math.PI / 2);
 
 // Naambordje Anouck's Place
 const plaqueCanvas = document.createElement('canvas');
