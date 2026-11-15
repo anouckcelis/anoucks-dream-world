@@ -247,6 +247,38 @@ path.position.set(0, 0.48, 1.45);
 
 islandGroup.add(path);
 
+// Boom aan de rechterkant van het huis
+const treeGroup = new THREE.Group();
+
+// Bruine stam
+const trunkGeometry = new THREE.CylinderGeometry(0.12, 0.16, 0.8, 8);
+const trunkMaterial = new THREE.MeshStandardMaterial({
+    color: '#85477a',
+    roughness: 1
+});
+
+const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+trunk.position.y = 0.4;
+
+treeGroup.add(trunk);
+
+// Groene boomkruin
+const leavesGeometry = new THREE.SphereGeometry(0.55, 12, 12);
+const leavesMaterial = new THREE.MeshStandardMaterial({
+    color: '#69b96b',
+    roughness: 1
+});
+
+const leaves = new THREE.Mesh(leavesGeometry, leavesMaterial);
+leaves.position.y = 1.1;
+
+treeGroup.add(leaves);
+
+// Boom op het eiland plaatsen
+treeGroup.position.set(1.65, 0.44, 0);
+
+islandGroup.add(treeGroup);
+
 // Animatie
 function animate() {
     requestAnimationFrame(animate);
