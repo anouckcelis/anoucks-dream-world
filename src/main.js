@@ -307,7 +307,7 @@ dogGroup.add(leftEar);
 
 const rightEar = new THREE.Mesh(earGeometry, earMaterial);
 rightEar.scale.set(0.7, 1.4, 0.7);
-rightEar.position.set(0.38, 0.58, -0.03);
+rightEar.position.set(0.28, 0.58, -0.12);
 
 dogGroup.add(rightEar);
 
