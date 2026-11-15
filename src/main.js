@@ -251,11 +251,52 @@ addFlower(-1.4, 1.7, '#ffe066');
 addFlower(-0.9, 1.9, '#b28dff');
 addFlower(1.1, 1.8, '#ff8fab');
 
+// Textuur voor het stenen paadje
+const pathCanvas = document.createElement('canvas');
+pathCanvas.width = 512;
+pathCanvas.height = 512;
+
+const pathContext = pathCanvas.getContext('2d');
+
+// Achtergrondkleur
+pathContext.fillStyle = '#d6c7f5';
+pathContext.fillRect(0, 0, 512, 512);
+
+// Verschillende steentjes tekenen
+const stoneColors = [
+    '#eee5ff',
+    '#c5b5e8',
+    '#b5a8dc',
+    '#e2d5f5',
+    '#d0c1eb'
+];
+
+for (let i = 0; i < 90; i++) {
+    const x = Math.random() * 512;
+    const y = Math.random() * 512;
+    const width = 20 + Math.random() * 35;
+    const height = 15 + Math.random() * 20;
+
+    pathContext.fillStyle =
+        stoneColors[Math.floor(Math.random() * stoneColors.length)];
+
+    pathContext.beginPath();
+    pathContext.ellipse(
+        x, y, width / 2, height / 2,
+        Math.random() * Math.PI,
+        0, Math.PI * 2
+    );
+    pathContext.fill();
+}
+
+// Echte Three.js textuur
+const pathTexture = new THREE.CanvasTexture(pathCanvas);
+pathTexture.colorSpace = THREE.SRGBColorSpace;
 // Paadje naar de voordeur
 const pathGeometry = new THREE.BoxGeometry(0.45, 0.05, 1.8);
 
 const pathMaterial = new THREE.MeshStandardMaterial({
-    color: '#d6c7f5',
+    map: pathTexture,
     roughness: 1
 });
 
@@ -396,6 +437,93 @@ islandGroup.add(dogGroup);
 treeGroup.position.set(1.65, 0.44, 0);
 
 islandGroup.add(treeGroup);
+
+// Magische wolk maken
+function addCloud(x, y, z, scale = 1) {
+    const cloudGroup = new THREE.Group();
+
+    const cloudMaterial = new THREE.MeshStandardMaterial({
+        color: '#ffffff',
+        roughness: 1
+    });
+
+    const cloudParts = [
+        { x: 0, y: 0, z: 0, scale: 0.5 },
+        { x: 0.35, y: 0.05, z: 0, scale: 0.4 },
+        { x: -0.35, y: 0.05, z: 0, scale: 0.4 },
+        { x: 0.05, y: 0.2, z: 0, scale: 0.4 }
+    ];
+
+    cloudParts.forEach(part => {
+        const geometry = new THREE.SphereGeometry(part.scale, 16, 16);
+        const cloudPart = new THREE.Mesh(geometry, cloudMaterial);
+
+        cloudPart.position.set(part.x, part.y, part.z);
+        cloudGroup.add(cloudPart);
+    });
+
+    cloudGroup.position.set(x, y, z);
+    cloudGroup.scale.setScalar(scale);
+
+    islandGroup.add(cloudGroup);
+}
+
+// Wolken rond het eiland
+addCloud(2.5, 3, 0, 0.9);
+addCloud(0, 4, -2, 1.1);
+
+// Wolken naast het huisje voor de regenboog
+addCloud(-1.7, 3.2, 0, 1);
+addCloud(1.7, 3.2, 0, 1);
+
+// Magische regenboog met zachte kleurovergangen
+const rainbowGroup = new THREE.Group();
+
+const rainbowColors = [
+    '#ff8fa8',
+    '#ffad9e',
+    '#ffc69e',
+    '#ffdda6',
+    '#fff0b5',
+    '#d9e9a8',
+    '#a9dfbd',
+    '#9bdedc',
+    '#9bc9f2',
+    '#b2a8ed',
+    '#d0a4e8'
+];
+
+// Meerdere dunne lagen voor een zachte regenboog
+rainbowColors.forEach((color, index) => {
+
+    const radius = 1.8 - index * 0.035;
+
+    const rainbowGeometry = new THREE.TorusGeometry(
+        radius,
+        0.045,
+        12,
+        96,
+        Math.PI
+    );
+
+    const rainbowMaterial = new THREE.MeshStandardMaterial({
+        color: color,
+        roughness: 1
+    });
+
+    const rainbowPart = new THREE.Mesh(
+        rainbowGeometry,
+        rainbowMaterial
+    );
+
+    rainbowGroup.add(rainbowPart);
+});
+
+// Positie boven het huisje
+rainbowGroup.position.set(0, 3.2, 0);
+rainbowGroup.rotation.y = Math.PI;
+
+islandGroup.add(rainbowGroup);
 
 // Animatie
 function animate() {
