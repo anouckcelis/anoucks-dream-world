@@ -233,6 +233,20 @@ addFlower(-2.0, 0.7, '#8ecbff');
 addFlower(-1.9, 1.1, '#ff8fab');
 addFlower(-1.3, -0.3, '#ffe066');
 
+// Paadje naar de voordeur
+const pathGeometry = new THREE.BoxGeometry(0.45, 0.05, 1.8);
+
+const pathMaterial = new THREE.MeshStandardMaterial({
+    color: '#d6c7f5',
+    roughness: 1
+});
+
+const path = new THREE.Mesh(pathGeometry, pathMaterial);
+
+path.position.set(0, 0.48, 1.45);
+
+islandGroup.add(path);
+
 // Animatie
 function animate() {
     requestAnimationFrame(animate);
