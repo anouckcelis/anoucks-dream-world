@@ -12,7 +12,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     100
 );
-camera.position.set(0, 3, 8);
+camera.position.set(0, 4, 12);
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -21,22 +21,43 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 document.querySelector('#app').appendChild(renderer.domElement);
 
-// Tijdelijke kubus om de 3D-scène te testen
-const geometry = new THREE.BoxGeometry(2, 2, 2);
-const material = new THREE.MeshBasicMaterial({
-    color: '#565194'
+// Licht
+const ambientLight = new THREE.AmbientLight('#ffffff', 1.5);
+scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight('#ffffff', 2);
+directionalLight.position.set(5, 8, 5);
+scene.add(directionalLight);
+
+// Zwevend eiland
+const islandGeometry = new THREE.CylinderGeometry(2.7, 1.9, 1.4, 8);
+
+const islandMaterial = new THREE.MeshStandardMaterial({
+    color: '#565194',
+    roughness: 0.9
 });
 
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+const island = new THREE.Mesh(islandGeometry, islandMaterial);
+island.position.y = -0.5;
+scene.add(island);
+
+// Bovenkant van het eiland
+const topGeometry = new THREE.CylinderGeometry(2.7, 2.7, 0.12, 8);
+
+const topMaterial = new THREE.MeshStandardMaterial({
+    color: '#b7a8df',
+    roughness: 1
+});
+
+const islandTop = new THREE.Mesh(topGeometry, topMaterial);
+islandTop.position.y = 0.26;
+scene.add(islandTop);
+
+
 
 // Animatie
 function animate() {
     requestAnimationFrame(animate);
-
-    cube.rotation.x += 0.005;
-    cube.rotation.y += 0.01;
-
     renderer.render(scene, camera);
 }
 
