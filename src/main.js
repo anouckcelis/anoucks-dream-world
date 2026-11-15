@@ -274,6 +274,106 @@ leaves.position.y = 1.1;
 
 treeGroup.add(leaves);
 
+// Klein hondje bij de boom
+const dogGroup = new THREE.Group();
+
+// Bruin lijfje
+const dogBodyGeometry = new THREE.SphereGeometry(0.3, 12, 12);
+const dogMaterial = new THREE.MeshStandardMaterial({ color: '#a66b43' });
+
+const dogBody = new THREE.Mesh(dogBodyGeometry, dogMaterial);
+dogBody.scale.set(1.3, 0.8, 0.8);
+dogBody.position.set(0, 0.3, 0);
+
+dogGroup.add(dogBody);
+
+// Kopje
+const dogHeadGeometry = new THREE.SphereGeometry(0.22, 12, 12);
+const dogHead = new THREE.Mesh(dogHeadGeometry, dogMaterial);
+
+dogHead.position.set(0.25, 0.55, 0.12);
+
+dogGroup.add(dogHead);
+
+// Oortjes
+const earGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+const earMaterial = new THREE.MeshStandardMaterial({ color: '#70452f' });
+
+const leftEar = new THREE.Mesh(earGeometry, earMaterial);
+leftEar.scale.set(0.7, 1.4, 0.7);
+leftEar.position.set(0.12, 0.58, 0.27);
+
+dogGroup.add(leftEar);
+
+const rightEar = new THREE.Mesh(earGeometry, earMaterial);
+rightEar.scale.set(0.7, 1.4, 0.7);
+rightEar.position.set(0.38, 0.58, -0.03);
+
+dogGroup.add(rightEar);
+
+// Vier pootjes
+const legGeometry = new THREE.CylinderGeometry(0.055, 0.055, 0.2, 8);
+
+const legPositions = [
+    [-0.15, 0.1, 0.22],
+    [0.15, 0.1, 0.22],
+    [-0.15, 0.1, -0.22],
+    [0.15, 0.1, -0.22]
+];
+
+legPositions.forEach(([x, y, z]) => {
+    const leg = new THREE.Mesh(legGeometry, dogMaterial);
+    leg.position.set(x, y, z);
+    dogGroup.add(leg);
+});
+
+// Staartje
+const tailGeometry = new THREE.ConeGeometry(0.07, 0.22, 8);
+const tail = new THREE.Mesh(tailGeometry, dogMaterial);
+
+tail.position.set(-0.4, 0.45, 0);
+tail.rotation.z = -Math.PI / 2;
+
+dogGroup.add(tail);
+
+// Hondje op het eiland plaatsen
+dogGroup.position.set(1.6, 0.44, 0.8);
+dogGroup.rotation.y = -Math.PI / 4;
+
+// Gezichtje van het hondje
+
+// Zwarte oogjes
+const eyeGeometry = new THREE.SphereGeometry(0.035, 8, 8);
+const eyeMaterial = new THREE.MeshStandardMaterial({ color: '#241a18' });
+
+const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+leftEye.position.set(0.34, 0.59, 0.29);
+dogGroup.add(leftEye);
+
+const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+rightEye.position.set(0.34, 0.59, -0.05);
+dogGroup.add(rightEye);
+
+// Snoetje
+const muzzleGeometry = new THREE.SphereGeometry(0.09, 10, 10);
+const muzzleMaterial = new THREE.MeshStandardMaterial({ color: '#d9aa83' });
+
+const muzzle = new THREE.Mesh(muzzleGeometry, muzzleMaterial);
+muzzle.scale.set(1, 0.7, 1);
+muzzle.position.set(0.44, 0.48, 0.12);
+dogGroup.add(muzzle);
+
+// Zwart neusje
+const noseGeometry = new THREE.SphereGeometry(0.045, 8, 8);
+const noseMaterial = new THREE.MeshStandardMaterial({ color: '#241a18' });
+
+const nose = new THREE.Mesh(noseGeometry, noseMaterial);
+nose.position.set(0.52, 0.51, 0.12);
+dogGroup.add(nose);
+
+
+islandGroup.add(dogGroup);
+
 // Boom op het eiland plaatsen
 treeGroup.position.set(1.65, 0.44, 0);
 
