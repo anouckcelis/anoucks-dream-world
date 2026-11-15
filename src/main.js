@@ -70,6 +70,43 @@ const grass = new THREE.Mesh(grassGeometry, grassMaterial);
 grass.position.y = 0.38;
 scene.add(grass);
 
+// Huisje - muren
+const houseGeometry = new THREE.BoxGeometry(1.8, 1.5, 1.5);
+
+const houseMaterial = new THREE.MeshStandardMaterial({
+    color: '#f3e5ff',
+    roughness: 0.9
+});
+
+const house = new THREE.Mesh(houseGeometry, houseMaterial);
+house.position.set(0, 1.15, 0);
+scene.add(house);
+
+// Dak van het huisje
+const roofGeometry = new THREE.ConeGeometry(1.45, 1.2, 4);
+
+const roofMaterial = new THREE.MeshStandardMaterial({
+    color: '#565194',
+    roughness: 0.9
+});
+
+const roof = new THREE.Mesh(roofGeometry, roofMaterial);
+roof.position.set(0, 2.5, 0);
+roof.rotation.y = Math.PI / 4;
+
+scene.add(roof);
+
+// Schoorsteen
+const chimneyGeometry = new THREE.BoxGeometry(0.3, 0.9, 0.3);
+
+const chimneyMaterial = new THREE.MeshStandardMaterial({
+    color: '#85477a'
+});
+
+const chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial);
+chimney.position.set(0.55, 2.35, -0.25);
+
+scene.add(chimney);
 
 // Animatie
 function animate() {
