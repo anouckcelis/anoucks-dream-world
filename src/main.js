@@ -53,6 +53,22 @@ const islandTop = new THREE.Mesh(topGeometry, topMaterial);
 islandTop.position.y = 0.26;
 scene.add(islandTop);
 
+// Graslaag boven op het eiland
+const grassGeometry = new THREE.CylinderGeometry(
+    2.65,
+    2.65,
+    0.12,
+    8
+);
+
+const grassMaterial = new THREE.MeshStandardMaterial({
+    color: '#8b91c9',
+    roughness: 1
+});
+
+const grass = new THREE.Mesh(grassGeometry, grassMaterial);
+grass.position.y = 0.38;
+scene.add(grass);
 
 
 // Animatie
